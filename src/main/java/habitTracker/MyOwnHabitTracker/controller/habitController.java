@@ -2,6 +2,7 @@ package habitTracker.MyOwnHabitTracker.controller;
 
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import habitTracker.MyOwnHabitTracker.service.habitService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +19,7 @@ public class habitController {
         this.service = service;
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "Home Pageeee";
-    }
+
     @GetMapping("/habits")
     public List<Habit> habits() {
         return service.getHabits();
@@ -30,4 +28,6 @@ public class habitController {
     public void addHabit(@RequestBody Habit habit) {
         service.addHabit(habit);
     }
+    //Testing thymeleaf
+
 }

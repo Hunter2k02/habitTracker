@@ -18,6 +18,7 @@ public class Habit {
     String Name;
     @Column
     String Description;
+    @Column(name="times_completed")
     Integer timesCompleted;
 
 }

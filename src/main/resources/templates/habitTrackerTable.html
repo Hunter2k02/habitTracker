@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="/habitTracker.css">
+    <script>
+        // Function to fetch JSON data and populate the table
+        async function loadTable() {
+            try {
+                const response = await fetch('/habits'); // Adjust the URL as needed
+                const data = await response.json();
+
+                let tableBody = document.getElementById("habitTableBody");
+                tableBody.innerHTML = ''; // Clear existing table rows
+
+                // Populate table rows with data
+                data.forEach(habit => {
+                    let row = `<tr>
+                        <td>${habit.id}</td>
+                        <td>${habit.name}</td>
+                        <td>${habit.timesCompleted}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        // Function to handle the form submission and add a new habit
+        async function addHabit(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const habitName = document.getElementById("habitName").value;
+            const goal = document.getElementById("goal").value;
+            const timesCompleted = document.getElementById("timesCompleted").value;
+
+            const newHabit = {
+                name: habitName,
+                goal: goal,
+                timesCompleted: timesCompleted || 0
+            };
+
+            try {
+                // Send the POST request to add the new habit
+                const response = await fetch('/habit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newHabit)
+                });
+
+                if (response.ok) {
+                    // Reload the table after adding the new habit
+                    loadTable();
+                    // Clear the form
+                    document.getElementById("habitForm").reset();
+                } else {
+                    alert("Failed to add habit. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error adding habit:", error);
+                alert("Error adding habit. Please try again.");
+            }
+        }
+
+        // Load the table when the page is ready
+        document.addEventListener("DOMContentLoaded", loadTable);
+    </script>
+</head>
+<body>
+<h1>Habit Tracker</h1>
+
+<!-- Form to add new habit -->
+<h2>Add a New Habit</h2>
+<form id="habitForm" onsubmit="addHabit(event)">
+    <label for="habitName">Habit Name:</label>
+    <input type="text" id="habitName" name="habitName" required placeholder="Enter habit name">
+
+    <label for="goal">Goal (times to complete):</label>
+    <input type="number" id="goal" name="goal" required placeholder="Enter goal" min="1">
+
+    <label for="timesCompleted">Times Done (optional):</label>
+    <input type="number" id="timesCompleted" name="timesCompleted" placeholder="Enter number of times done" min="0">
+
+    <button type="submit">Add Habit</button>
+</form>
+
+<!-- Table to display habits -->
+<h2>Habit List</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Times Done</th>
+    </tr>
+    </thead>
+    <tbody id="habitTableBody">
+    <!-- Rows will be dynamically inserted here -->
+    </tbody>
+</table>
+
+</body>
+</html>

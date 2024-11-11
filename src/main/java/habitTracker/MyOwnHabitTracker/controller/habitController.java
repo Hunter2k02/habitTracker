@@ -3,10 +3,7 @@ package habitTracker.MyOwnHabitTracker.controller;
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import habitTracker.MyOwnHabitTracker.service.habitService;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,10 @@ public class habitController {
     public void addHabit(@RequestBody Habit habit) {
         service.addHabit(habit);
     }
-    //Testing thymeleaf
+    @DeleteMapping("/habit")
+    public void deleteHabit(@RequestBody Habit habit) {
+        service.deleteHabit(habit);
+    }
+
 
 }

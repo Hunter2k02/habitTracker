@@ -20,5 +20,8 @@ public class habitService {
     public void addHabit(Habit habit) {
         repository.save(habit);
     }
+    public void deleteHabit(Habit habit) {
+        repository.delete(habit);
+    }
 
 }

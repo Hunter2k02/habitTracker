@@ -1,12 +1,14 @@
+/* Dark Mode Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #f4f4f9;
+    background-color: #121212; /* Dark background for the whole page */
+    color: #E0E0E0; /* Light text for readability */
 }
 
-h1,h2 {
+h1, h2 {
     text-align: center;
-    color: #333;
+    color: #E0E0E0; /* Lighter text for headings */
 }
 
 /* Table styling */
@@ -14,30 +16,35 @@ table {
     width: 80%;
     margin: 0 auto;
     border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #1E1E1E; /* Dark background for the table */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+td form {
+    padding: 5px;  /* Add padding around the checkbox */
+    text-align: center; /* Center the checkbox in the cell */
 }
 
 th, td {
     padding: 12px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     font-size: 16px;
+    color: #E0E0E0; /* Light text color in table cells */
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Green background for table headers */
     color: white;
 }
 
 /* Zebra striping effect for table rows */
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #2A2A2A; /* Darker background for even rows */
 }
 
 /* Hover effect on rows */
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #333; /* Slightly lighter background on hover */
 }
 
 /* Styling for the empty table body when no data is available */
@@ -54,13 +61,13 @@ tr:hover {
 
 /* Form styling */
 form {
-    background-color: #ffffff;
+    background-color: #2C2C2C; /* Dark form background */
     border-radius: 8px;
     padding: 20px;
     margin-top: 30px;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     margin: 20px auto;
@@ -69,39 +76,42 @@ form {
 form label {
     font-size: 1rem;
     margin-bottom: 8px;
-    color: #555;
+    color: #E0E0E0; /* Light text for form labels */
 }
 
 form input, form select, form button {
     padding: 12px;
     font-size: 1rem;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     border-radius: 4px;
     width: 100%;
+    background-color: #3C3C3C; /* Dark background for input fields */
+    color: #E0E0E0; /* Light text for input fields */
 }
 
 form button {
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Green button background */
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 form button:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* Darker green on hover */
 }
 
 form input:focus, form select:focus, form button:focus {
     outline: none;
-    border: 1px solid #4CAF50;
+    border: 1px solid #4CAF50; /* Green border when focused */
 }
 
-form input[type="text"] {
-    width: 100%;
+input[type="text"],
+input[type="number"] {
+    width: 95%;
 }
 
-/* Responsive design for the form */
+
 @media (max-width: 600px) {
     form {
         width: 90%;

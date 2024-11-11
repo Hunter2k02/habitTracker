@@ -4,21 +4,62 @@
     <title>Habit Tracker</title>
     <link rel="stylesheet" href="/habitTracker.css">
     <script>
-        // Function to fetch JSON data and populate the table
+        async function submitHabit(event) {
+            event.preventDefault();
+
+            const habitName = document.getElementById("habitName").value;
+            const goal = document.getElementById("goal").value;
+            const timesCompleted = document.getElementById("timesCompleted").value || 0;
+
+            const habitData = {
+                name: habitName,
+                goal: parseInt(goal, 10),
+                timesCompleted: parseInt(timesCompleted, 10)
+            };
+
+            try {
+                const response = await fetch('/habit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(habitData)
+                });
+
+                if (response.ok) {
+                    console.log("Habit submitted successfully!");
+                    loadTable();
+                    document.getElementById("habitForm").reset();
+                } else {
+                    console.error("Failed to submit habit");
+                    alert("Error: Could not submit habit.");
+                }
+            } catch (error) {
+                console.error("Error submitting habit:", error);
+                alert("An error occurred while submitting the habit.");
+            }
+        }
+
         async function loadTable() {
             try {
-                const response = await fetch('/habits'); // Adjust the URL as needed
+                const response = await fetch('/habits');
                 const data = await response.json();
 
                 let tableBody = document.getElementById("habitTableBody");
-                tableBody.innerHTML = ''; // Clear existing table rows
+                tableBody.innerHTML = '';
 
-                // Populate table rows with data
                 data.forEach(habit => {
                     let row = `<tr>
-                        <td>${habit.id}</td>
+                        <td><button onclick="deleteHabit(${habit.id})" class="delete-btn">🗑️</button></td>
                         <td>${habit.name}</td>
+                        <td>${habit.goal}</td>
                         <td>${habit.timesCompleted}</td>
+                        <td>
+                            <form action="/mark-completion" method="POST">
+                                <input type="checkbox" name="completed" value="true" onchange="this.form.submit()">
+                                <input type="hidden" name="habit_id" value="${habit.id}">
+                            </form>
+                        </td>
                     </tr>`;
                     tableBody.innerHTML += row;
                 });
@@ -27,54 +68,51 @@
             }
         }
 
-        // Function to handle the form submission and add a new habit
-        async function addHabit(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
-
-            const habitName = document.getElementById("habitName").value;
-            const goal = document.getElementById("goal").value;
-            const timesCompleted = document.getElementById("timesCompleted").value;
-
-            const newHabit = {
-                name: habitName,
-                goal: goal,
-                timesCompleted: timesCompleted || 0
-            };
-
+        async function deleteHabit(habitId) {
             try {
-                // Send the POST request to add the new habit
                 const response = await fetch('/habit', {
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(newHabit)
+                    body: JSON.stringify({ id: habitId })
                 });
 
                 if (response.ok) {
-                    // Reload the table after adding the new habit
                     loadTable();
-                    // Clear the form
-                    document.getElementById("habitForm").reset();
                 } else {
-                    alert("Failed to add habit. Please try again.");
+                    alert("Failed to delete habit. Please try again.");
                 }
             } catch (error) {
-                console.error("Error adding habit:", error);
-                alert("Error adding habit. Please try again.");
+                console.error("Error deleting habit:", error);
+                alert("Error deleting habit. Please try again.");
             }
         }
 
-        // Load the table when the page is ready
         document.addEventListener("DOMContentLoaded", loadTable);
     </script>
 </head>
 <body>
 <h1>Habit Tracker</h1>
 
-<!-- Form to add new habit -->
+<h2>Habit List</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Delete</th>
+        <th>Name</th>
+        <th>Goal</th>
+        <th>Completed</th>
+        <th>Mark Completion</th>
+    </tr>
+    </thead>
+    <tbody id="habitTableBody">
+    <!-- Rows will be dynamically inserted here -->
+    </tbody>
+</table>
+
 <h2>Add a New Habit</h2>
-<form id="habitForm" onsubmit="addHabit(event)">
+<form id="habitForm" onsubmit="submitHabit(event)">
     <label for="habitName">Habit Name:</label>
     <input type="text" id="habitName" name="habitName" required placeholder="Enter habit name">
 
@@ -86,21 +124,6 @@
 
     <button type="submit">Add Habit</button>
 </form>
-
-<!-- Table to display habits -->
-<h2>Habit List</h2>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Times Done</th>
-    </tr>
-    </thead>
-    <tbody id="habitTableBody">
-    <!-- Rows will be dynamically inserted here -->
-    </tbody>
-</table>
 
 </body>
 </html>

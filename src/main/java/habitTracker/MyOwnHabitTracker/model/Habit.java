@@ -14,11 +14,17 @@ import lombok.Setter;
 @Entity
 public class Habit {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer Id;
     String Name;
     @Column
-    String Description;
+    Integer Goal;
     @Column(name="times_completed")
     Integer timesCompleted;
+    public Habit(String name, Integer goal, Integer timesCompleted) {
+        Name = name;
+        Goal = goal;
+        this.timesCompleted = timesCompleted;
+    }
 
 }

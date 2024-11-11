@@ -50,15 +50,12 @@
 
                 data.forEach(habit => {
                     let row = `<tr>
-                        <td><button onclick="deleteHabit(${habit.id})" class="delete-btn">🗑️</button></td>
+                        <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
                         <td>${habit.name}</td>
                         <td>${habit.goal}</td>
                         <td>${habit.timesCompleted}</td>
                         <td>
-                            <form action="/mark-completion" method="POST">
-                                <input type="checkbox" name="completed" value="true" onchange="this.form.submit()">
-                                <input type="hidden" name="habit_id" value="${habit.id}">
-                            </form>
+                         <input type="checkbox" onchange="markCompletion(${habit.id})">
                         </td>
                     </tr>`;
                     tableBody.innerHTML += row;
@@ -88,6 +85,23 @@
                 alert("Error deleting habit. Please try again.");
             }
         }
+        async function markCompletion(habitId) {
+            try {
+                const response = await fetch(`/habit/${habitId}/increment`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    loadTable();
+                } else {
+                    alert("Failed to mark habit as completed.");
+                }
+            } catch (error) {
+                console.error("Error marking habit as completed:", error);
+                alert("An error occurred while marking the habit.");
+            }
+        }
+
 
         document.addEventListener("DOMContentLoaded", loadTable);
     </script>

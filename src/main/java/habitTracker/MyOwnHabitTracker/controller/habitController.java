@@ -3,9 +3,11 @@ package habitTracker.MyOwnHabitTracker.controller;
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import habitTracker.MyOwnHabitTracker.service.habitService;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -28,6 +30,10 @@ public class habitController {
     @DeleteMapping("/habit")
     public void deleteHabit(@RequestBody Habit habit) {
         service.deleteHabit(habit);
+    }
+    @PostMapping("/habit/{id}/increment")
+    public void incrementTimesCompleted(@PathVariable Integer id) {
+        service.incrementTimesCompleted(id);
     }
 
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class pageController {
     @GetMapping("/habit-tracker")
     public String viewHabitTracker() {
-        return "habitTrackerTable";
+        return "habitTracker";
     }
     @GetMapping("/")
     public String home() {

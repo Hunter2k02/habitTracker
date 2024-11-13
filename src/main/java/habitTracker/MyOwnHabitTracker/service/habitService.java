@@ -1,5 +1,6 @@
 package habitTracker.MyOwnHabitTracker.service;
 
+import habitTracker.MyOwnHabitTracker.exceptionHandler.HabitNotFoundException;
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class habitService {
         Boolean isCompletedToday = payload.get("isCompletedToday");
 
         Habit habit = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Habit not found"));
+                .orElseThrow(() -> new HabitNotFoundException("Habit not found with ID: " + id));
 
         if (isCompletedToday) {
             habit.setTimesCompleted(habit.getTimesCompleted() + 1);

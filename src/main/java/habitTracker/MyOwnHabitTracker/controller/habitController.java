@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -24,16 +25,19 @@ public class habitController {
         return service.getHabits();
     }
     @PostMapping("/habit")
-    public void addHabit(@RequestBody Habit habit) {
+    public ResponseEntity<?> addHabit(@RequestBody Habit habit) {
         service.addHabit(habit);
+        return ResponseEntity.ok().build();
     }
     @DeleteMapping("/habit")
-    public void deleteHabit(@RequestBody Habit habit) {
+    public ResponseEntity<?> deleteHabit(@RequestBody Habit habit) {
         service.deleteHabit(habit);
+        return ResponseEntity.ok().build();
     }
-    @PostMapping("/habit/{id}/increment")
-    public void incrementTimesCompleted(@PathVariable Integer id) {
-        service.incrementTimesCompleted(id);
+    @PostMapping("habit/{habitId}/completion")
+    public ResponseEntity<?> updateHabitCompletion(@PathVariable Integer habitId, @RequestBody Map<String, Boolean> payload) {
+        service.isHabitCompleted(habitId, payload);
+        return ResponseEntity.ok().build();
     }
 
 

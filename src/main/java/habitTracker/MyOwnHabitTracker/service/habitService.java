@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import habitTracker.MyOwnHabitTracker.repository.habitRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,25 @@ public class habitService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public ResponseEntity<String> isHabitCompleted(Integer id, Map<String, Boolean> payload) {
+
+        Boolean isCompletedToday = payload.get("isCompletedToday");
+
+        Habit habit = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Habit not found"));
+
+        if (isCompletedToday) {
+            habit.setTimesCompleted(habit.getTimesCompleted() + 1);
+        } else if (habit.getTimesCompleted() > 0) {
+            habit.setTimesCompleted(habit.getTimesCompleted() - 1);
+        }
+
+
+        habit.setIsCompleted(isCompletedToday);
+        repository.save(habit);
+        return ResponseEntity.ok().build();
     }
 
 }

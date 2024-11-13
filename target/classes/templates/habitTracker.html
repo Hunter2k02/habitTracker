@@ -11,10 +11,12 @@
             const goal = document.getElementById("goal").value;
             const timesCompleted = document.getElementById("timesCompleted").value || 0;
 
+
             const habitData = {
                 name: habitName,
                 goal: parseInt(goal, 10),
-                timesCompleted: parseInt(timesCompleted, 10)
+                timesCompleted: parseInt(timesCompleted, 10),
+                isCompleted : false
             };
 
             try {
@@ -44,26 +46,32 @@
             try {
                 const response = await fetch('/habits');
                 const data = await response.json();
+                console.log(data); // Debugging: Check the values of `isCompleted`
 
                 let tableBody = document.getElementById("habitTableBody");
                 tableBody.innerHTML = '';
 
                 data.forEach(habit => {
                     let row = `<tr>
-                        <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
-                        <td>${habit.name}</td>
-                        <td>${habit.goal}</td>
-                        <td>${habit.timesCompleted}</td>
-                        <td>
-                         <input type="checkbox" onchange="markCompletion(${habit.id})">
-                        </td>
-                    </tr>`;
+                <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
+                <td>${habit.name}</td>
+                <td>${habit.goal}</td>
+                <td>${habit.timesCompleted}</td>
+                <td>
+                    <input id="markCompletionCheckBox${habit.id}"
+                           class="markCompletionCheckBox"
+                           type="checkbox"
+                           ${habit.isCompleted ? 'checked' : ''}
+                           onchange="markCompletion(${habit.id}, this.checked)">
+                </td>
+            </tr>`;
                     tableBody.innerHTML += row;
                 });
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
+
 
         async function deleteHabit(habitId) {
             try {
@@ -85,20 +93,24 @@
                 alert("Error deleting habit. Please try again.");
             }
         }
-        async function markCompletion(habitId) {
+        async function markCompletion(habitId, isChecked) {
             try {
-                const response = await fetch(`/habit/${habitId}/increment`, {
-                    method: 'POST'
+                const response = await fetch(`/habit/${habitId}/completion`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ isCompletedToday: isChecked })
                 });
 
                 if (response.ok) {
                     loadTable();
                 } else {
-                    alert("Failed to mark habit as completed.");
+                    alert("Failed to update habit completion state.");
                 }
             } catch (error) {
-                console.error("Error marking habit as completed:", error);
-                alert("An error occurred while marking the habit.");
+                console.error("Error updating habit completion state:", error);
+                alert("An error occurred while updating the habit.");
             }
         }
 

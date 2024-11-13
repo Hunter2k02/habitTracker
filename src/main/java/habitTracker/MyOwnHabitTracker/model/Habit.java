@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -15,16 +14,24 @@ import lombok.Setter;
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer Id;
-    String Name;
-    @Column
-    Integer Goal;
-    @Column(name="times_completed")
-    Integer timesCompleted;
-    public Habit(String name, Integer goal, Integer timesCompleted) {
-        Name = name;
-        Goal = goal;
-        this.timesCompleted = timesCompleted;
-    }
+    private Integer id;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer goal;
+
+    @Column(name = "times_completed")
+    private Integer timesCompleted = 0;
+
+    @Column(name = "is_completed")
+    private Boolean isCompleted = false;
+
+    public Habit(String name, Integer goal, Integer timesCompleted, Boolean isCompleted) {
+        this.name = name;
+        this.goal = goal;
+        this.timesCompleted = timesCompleted;
+        this.isCompleted = isCompleted;
+    }
 }

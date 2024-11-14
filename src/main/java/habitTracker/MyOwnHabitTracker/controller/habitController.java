@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 
 @RestController
@@ -19,15 +19,13 @@ public class habitController {
         this.service = service;
     }
 
-
     @GetMapping("/habits")
     public List<Habit> habits() {
         return service.getHabits();
     }
     @PostMapping("/habit")
     public ResponseEntity<?> addHabit(@RequestBody Habit habit) {
-        service.addHabit(habit);
-        return ResponseEntity.ok().build();
+        return service.addHabit(habit);
     }
     @DeleteMapping("/habit")
     public ResponseEntity<?> deleteHabit(@RequestBody Habit habit) {

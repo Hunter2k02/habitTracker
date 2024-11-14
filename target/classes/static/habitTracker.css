@@ -59,7 +59,6 @@ form {
     background-color: #2C2C2C; /* Dark form background */
     border-radius: 8px;
     padding: 20px;
-    margin-top: 30px;
     width: 80%;
     max-width: 600px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -126,11 +125,44 @@ input[type="number"] {
 
 .delete-btn:hover {
     transform: scale(1.2) rotate(15deg);
-    color: #e63946;
 }
 
 /* Click/Active Effect */
 .delete-btn:active {
     transform: scale(1.1);
-    color: #b71c1c;
+}
+.markCompletionCheckBox{
+    appearance: none; /* Remove default checkbox styling */
+    width: 20px;
+    height: 20px;
+    background-color: #2A2A2A;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: relative;
+}
+.markCompletionCheckBox:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.markCompletionCheckBox:checked:after{
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.markCompletionCheckBox:hover{
+    border-color: #45a049;
+}
+
+.markCompletionCheckBox:focus {
+    outline: none;
+    border-color: #76ff03; /* Brighter green border on focus */
 }

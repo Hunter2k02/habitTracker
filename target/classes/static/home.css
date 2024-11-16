@@ -25,6 +25,7 @@ a:active {
 
 /* Center the links within a container */
 .navbar {
+
     text-align: center; /* Center aligns anchor tags within this container */
 }
 .hero {

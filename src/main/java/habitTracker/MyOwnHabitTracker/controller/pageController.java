@@ -11,7 +11,10 @@ public class pageController {
     }
     @GetMapping("/")
     public String home() {
-
         return "home";
+    }
+    @GetMapping("/chart")
+    public String chart() {
+        return "chart";
     }
 }

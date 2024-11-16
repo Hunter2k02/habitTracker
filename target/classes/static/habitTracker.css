@@ -1,27 +1,25 @@
-/* Dark Mode Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #121212; /* Dark background for the whole page */
-    color: #E0E0E0; /* Light text for readability */
+    background-color: #121212;
+    color: #E0E0E0;
 }
 
 h1, h2 {
     text-align: center;
-    color: #E0E0E0; /* Lighter text for headings */
+    color: #E0E0E0;
 }
 
-/* Table styling */
 table {
     width: 80%;
     margin: 0 auto;
     border-collapse: collapse;
-    background-color: #1E1E1E; /* Dark background for the table */
+    background-color: #1E1E1E;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 td form {
-    padding: 5px;  /* Add padding around the checkbox */
-    text-align: center; /* Center the checkbox in the cell */
+    padding: 5px;
+    text-align: center;
 }
 
 th, td {
@@ -29,34 +27,30 @@ th, td {
     text-align: center;
     border: 1px solid #444;
     font-size: 16px;
-    color: #E0E0E0; /* Light text color in table cells */
+    color: #E0E0E0;
 }
 
 th {
-    background-color: #4CAF50; /* Green background for table headers */
+    background-color: #4CAF50;
     color: white;
 }
 
-/* Zebra striping effect for table rows */
 tr:nth-child(even) {
-    background-color: #2A2A2A; /* Darker background for even rows */
+    background-color: #2A2A2A;
 }
 
-/* Styling for the empty table body when no data is available */
 #habitTableBody {
     text-align: center;
 }
 
-/* Styling for error messages */
 .error {
     color: red;
     text-align: center;
     font-size: 18px;
 }
 
-/* Form styling */
 form {
-    background-color: #2C2C2C; /* Dark form background */
+    background-color: #2C2C2C;
     border-radius: 8px;
     padding: 20px;
     width: 80%;
@@ -70,7 +64,7 @@ form {
 form label {
     font-size: 1rem;
     margin-bottom: 8px;
-    color: #E0E0E0; /* Light text for form labels */
+    color: #E0E0E0;
 }
 
 form input, form select, form button {
@@ -80,12 +74,12 @@ form input, form select, form button {
     border: 1px solid #444;
     border-radius: 4px;
     width: 100%;
-    background-color: #3C3C3C; /* Dark background for input fields */
-    color: #E0E0E0; /* Light text for input fields */
+    background-color: #3C3C3C;
+    color: #E0E0E0;
 }
 
 form button {
-    background-color: #4CAF50; /* Green button background */
+    background-color: #4CAF50;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -97,7 +91,7 @@ form button:hover {
 
 form input:focus, form select:focus, form button:focus {
     outline: none;
-    border: 1px solid #4CAF50; /* Green border when focused */
+    border: 1px solid #4CAF50;
 }
 
 input[type="text"],
@@ -105,34 +99,31 @@ input[type="number"] {
     width: 95%;
 }
 
-
 @media (max-width: 600px) {
     form {
         width: 90%;
     }
 }
 
-/* Bin Button Styles */
 .delete-btn {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 20px; /* Adjust as necessary */
+    font-size: 20px;
     transition: transform 0.3s ease, color 0.3s ease;
-    color: #555; /* Initial color */
+    color: #555;
 }
-
 
 .delete-btn:hover {
     transform: scale(1.2) rotate(15deg);
 }
 
-/* Click/Active Effect */
 .delete-btn:active {
     transform: scale(1.1);
 }
+
 .markCompletionCheckBox{
-    appearance: none; /* Remove default checkbox styling */
+    appearance: none;
     width: 20px;
     height: 20px;
     background-color: #2A2A2A;
@@ -164,5 +155,33 @@ input[type="number"] {
 
 .markCompletionCheckBox:focus {
     outline: none;
-    border-color: #76ff03; /* Brighter green border on focus */
+    border-color: #76ff03;
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+    text-decoration: None;
+    text-align: center;
+}
+.navbar a{
+    color: rgb(200, 200, 200);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.navbar a:active {
+    color: rgb(180, 180, 180);
+}
+
+.newHabit{
+    margin: 20px;
 }

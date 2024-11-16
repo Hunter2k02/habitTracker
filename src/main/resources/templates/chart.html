@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Chart</title>
+    <link rel="stylesheet" href="/chart.css">
+    <title>Habit Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="navbar">
-    <h1><a href="/" th:href="@{/}">Home Page</a></h1> <h1><a href="/chart" th:href="@{/chart}">Habit Chart</a></h1>
+    <h1><a href="/" th:href="@{/}">Home Page</a></h1> <h1><a href="/habit-tracker" th:href="@{/habit-tracker}">Habit Tracker</a></h1>
 
 </div>
-<canvas id="myChart" width="400" height="200"></canvas>
+<canvas class="myChart" id="myChart" height="80" width="200"></canvas>
 <script>
     async function fetchAndRenderChart() {
         try {
@@ -42,9 +43,11 @@
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            stop:30
                         }
-                    }
+                    },
+                    responsive: true,
                 }
             });
         } catch (error) {
@@ -56,7 +59,7 @@
     fetchAndRenderChart();
 
 
-    renderChart();
+
 </script>
 </body>
 </html>

@@ -7,55 +7,52 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<h1>Dynamic Chart</h1>
+
 <canvas id="myChart" width="400" height="200"></canvas>
 <script>
-    // Fetch data from the backend
-    async function fetchData() {
+    async function fetchAndRenderChart() {
         try {
-            const response = await fetch('/fetch-chart-data'); // Endpoint from Java backend
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
+            // Fetch data from the backend
+            const response = await fetch('/habits');
+            const data = await response.json();
 
-    // Render the chart
-    async function renderChart() {
-        const data = await fetchData();
+            console.log('Fetched data:', data); // Debug: Check the structure of the fetched data
 
-        if (!data) {
-            console.error('No data available to render the chart.');
-            return;
-        }
+            // Extract labels and values
+            const labels = data.map(habit => habit.name); // Habit names as labels
+            const values = data.map(habit => habit.timesCompleted); // Times completed as values
 
-        const ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar', // Change to 'line', 'pie', etc., as needed
-            data: {
-                labels: data.labels, // Labels for the chart
-                datasets: [{
-                    label: 'Dataset Label',
-                    data: data.values, // Data for the chart
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+            // Render the chart
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Times Completed',
+                        data: values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+        } catch (error) {
+            console.error('Error fetching or rendering chart:', error);
+        }
     }
 
-    // Initialize the chart
+    // Call the function when the script loads
+    fetchAndRenderChart();
+
+
     renderChart();
 </script>
 </body>

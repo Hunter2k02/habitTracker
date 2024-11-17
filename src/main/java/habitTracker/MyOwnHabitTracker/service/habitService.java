@@ -2,40 +2,44 @@ package habitTracker.MyOwnHabitTracker.service;
 
 import habitTracker.MyOwnHabitTracker.exceptionHandler.HabitNotFoundException;
 import habitTracker.MyOwnHabitTracker.model.Habit;
+import habitTracker.MyOwnHabitTracker.repository.HabitRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import habitTracker.MyOwnHabitTracker.repository.habitRepository;
-import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Map;
 
 
 @Service
-public class habitService {
-    habitRepository repository;
+public class HabitService {
 
-    public habitService(habitRepository repository) {
+    HabitRepository repository;
+    HabitCompletionService habitCompletionService;
+    public HabitService(HabitRepository repository, HabitCompletionService habitCompletionService) {
         this.repository = repository;
+        this.habitCompletionService = habitCompletionService;
     }
 
     public List<Habit> getHabits() {
         return repository.findAll();
     }
+
     public ResponseEntity<?> addHabit(Habit habit) {
-        try{
+        try {
             repository.save(habit);
             return ResponseEntity.ok("Habit added successfully!");
-        }catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: This habit already exists or violates data constraints.");
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         }
     }
-    public void deleteHabit(Habit habit) {
+
+    public ResponseEntity<?> deleteHabit(Habit habit) {
         repository.delete(habit);
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<String> isHabitCompleted(Integer id, Map<String, Boolean> payload) {
@@ -47,14 +51,19 @@ public class habitService {
 
         if (isCompletedToday) {
             habit.setTimesCompleted(habit.getTimesCompleted() + 1);
+            habitCompletionService.saveAHabitCompletion(id);
         } else if (habit.getTimesCompleted() > 0) {
             habit.setTimesCompleted(habit.getTimesCompleted() - 1);
+            habitCompletionService.deleteAHabitCompletion(id);
         }
 
 
         habit.setIsCompleted(isCompletedToday);
         repository.save(habit);
+
         return ResponseEntity.ok().build();
     }
+
+
 
 }

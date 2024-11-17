@@ -1,7 +1,7 @@
 package habitTracker.MyOwnHabitTracker.controller;
 
 import habitTracker.MyOwnHabitTracker.model.Habit;
-import habitTracker.MyOwnHabitTracker.service.habitService;
+import habitTracker.MyOwnHabitTracker.service.HabitService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 
-
 @RestController
-public class habitController {
+public class HabitController {
 
-    habitService service;
-    public habitController(habitService service) {
+    HabitService service;
+
+    public HabitController(HabitService service) {
         this.service = service;
     }
 
@@ -23,19 +23,20 @@ public class habitController {
     public List<Habit> habits() {
         return service.getHabits();
     }
+
     @PostMapping("/habit")
     public ResponseEntity<?> addHabit(@RequestBody Habit habit) {
         return service.addHabit(habit);
     }
+
     @DeleteMapping("/habit")
     public ResponseEntity<?> deleteHabit(@RequestBody Habit habit) {
-        service.deleteHabit(habit);
-        return ResponseEntity.ok().build();
+        return service.deleteHabit(habit);
     }
-    @PostMapping("habit/{habitId}/completion")
+
+    @PostMapping("/habit/{habitId}/completion")
     public ResponseEntity<?> updateHabitCompletion(@PathVariable Integer habitId, @RequestBody Map<String, Boolean> payload) {
-        service.isHabitCompleted(habitId, payload);
-        return ResponseEntity.ok().build();
+        return service.isHabitCompleted(habitId, payload);
     }
 
 

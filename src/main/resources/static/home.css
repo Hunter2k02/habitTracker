@@ -6,38 +6,33 @@
 
 html{
     height:100%;
+    margin: 0;
+    padding: 0;
 }
 body {
+
+    height:100%;
+    width: 100%;
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #121212; /* Dark background for the whole page */
-    color: #E0E0E0; /* Light text for readability */
+    background-color: #121212;
+    color: #E0E0E0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
-a {
-    color: rgb(200, 200, 200);
+.navbar{
+    height:400px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.navbar a{
     text-decoration: none;
-    font-weight: 500;
-    padding: 8px 16px;
-    margin: 5px;
-    display: inline-block;
-    text-align: center;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-
-a:hover {
-    background-color: rgb(220, 220, 220);
-}
-
-a:active {
-    color: rgb(180, 180, 180); /* Darker grey on active click */
-}
-
-/* Center the links within a container */
-.navbar {
-
-    text-align: center; /* Center aligns anchor tags within this container */
-}
-.hero {
-    text-align: center;
+    font-size: 48px;
+    font-weight: 400;
 
 }
+

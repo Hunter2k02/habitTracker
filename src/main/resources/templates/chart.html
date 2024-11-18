@@ -44,18 +44,32 @@
                     scales: {
                         x: {
                             ticks: {
-                                color: '#4CAF50'
+                                color: '#FFFFFF',
                             }
                         },
                         y: {
                             beginAtZero: true,
-                            max: 30,
                             ticks: {
-                                color: '#4CAF50'
+                                color: '#FFFFFF',
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.2)'
                             }
                         }
                     },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Habit Tracking Overview', // Add descriptive title
+                            color: '#FFFFFF',
+                            font: { size: 18}
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
                     responsive: true,
+
                 }
             });
         } catch (error) {

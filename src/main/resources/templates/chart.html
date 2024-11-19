@@ -10,26 +10,70 @@
 <body>
 <div class="navbar">
     <h1><a href="/" th:href="@{/}">Home Page</a></h1> <h1><a href="/habit-tracker" th:href="@{/habit-tracker}">Habit Tracker</a></h1>
-
 </div>
+
 <canvas class="myChart" id="myChart" height="80" width="200"></canvas>
+<label for="habit-selector">Select a Habit:
+    <select id="habit-selector">
+        <option value="0">All Habits</option>
+        <option>
+
+        </option>
+    </select>
+
+
+</label>
 <script>
-    async function fetchAndRenderChart() {
+
+    let chartInstance; // Global variable for the chart instance
+
+    async function loadDropDownMenu() {
         try {
-            // Fetch data from the backend
             const response = await fetch('/habits');
             const data = await response.json();
 
-            console.log('Fetched data:', data); // Debug: Check the structure of the fetched data
+            const habitSelector = document.getElementById('habit-selector');
+            habitSelector.innerHTML = '<option value="0">All Habits</option>';
+            data.forEach(habit => {
+                habitSelector.innerHTML += `<option value="${habit.id}">${habit.name}</option>`;
+            });
 
-            // Extract labels and values
-            const labels = data.map(habit => habit.name); // Habit names as labels
-            const values = data.map(habit => habit.timesCompleted); // Times completed as values
+            habitSelector.addEventListener('change', (event) => {
+                const habitId = event.target.value;
+                const selectedText = event.target.options[event.target.selectedIndex].text;
 
-            // Render the chart
+                if (habitId === "0") {
+                    console.log('All habits selected'); // Handle All Habits case
+                    return;
+                }
+
+                fetchAndRenderChart(habitId);
+            });
+        } catch (error) {
+            console.error('Error loading dropdown menu:', error);
+        }
+    }
+
+    async function fetchAndRenderChart(habitId) {
+        try {
+            const response = await fetch(`/chart-data/${habitId}`);
+            const data = await response.json();
+
+            if (!data || data.length === 0) {
+                console.warn('No data available for the selected habit.');
+                return;
+            }
+
+            const labels = data.map(habit => String(habit.month + '-' + habit.year));
+            const values = data.map(habit => habit.timesCompleted);
+
             const ctx = document.getElementById('myChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
@@ -43,33 +87,27 @@
                 options: {
                     scales: {
                         x: {
-                            ticks: {
-                                color: '#FFFFFF',
-                            }
+                            ticks: { color: '#FFFFFF' }
                         },
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                color: '#FFFFFF',
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.2)'
-                            }
+                            ticks: { color: '#FFFFFF',
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : null;
+                                }},
+                            grid: { color: 'rgba(255, 255, 255, 0.2)' }
                         }
                     },
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Habit Tracking Overview', // Add descriptive title
+                            text: 'Habit Tracking Overview',
                             color: '#FFFFFF',
-                            font: { size: 18}
+                            font: { size: 32 }
                         },
-                        tooltip: {
-                            enabled: true
-                        }
+                        tooltip: { enabled: true }
                     },
                     responsive: true,
-
                 }
             });
         } catch (error) {
@@ -77,8 +115,11 @@
         }
     }
 
-    // Call the function when the script loads
-    fetchAndRenderChart();
+    loadDropDownMenu();
+
+
+
+
 
 
 

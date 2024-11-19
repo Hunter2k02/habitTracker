@@ -3,6 +3,7 @@ package habitTracker.MyOwnHabitTracker.controller;
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import habitTracker.MyOwnHabitTracker.service.HabitService;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 
 @RestController
+@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 public class HabitController {
 
     HabitService service;

@@ -62,3 +62,111 @@ body {
     outline: none;
 }
 
+.selector {
+    display: flex;
+    position: absolute;
+    top: 83%;
+    left: 10%;
+    width: 250px;
+}
+
+.selector label {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.selector select {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #2ea44f;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    appearance: none;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-out;
+    position: relative;
+    text-align: center; /* Ensure the text is centered inside the select */
+}
+
+.selector select::after {
+    content: " ▼";
+    font-size: 16px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    pointer-events: none;
+}
+
+.selector select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    animation: focusAnimation 0.3s ease-in-out;
+}
+
+.selector select:hover {
+    background-color: #2c974b;
+    border-color: #2c974b;
+    animation: hoverAnimation 0.3s ease-in-out;
+    transform: scale(1.05);
+}
+
+@keyframes focusAnimation {
+    0% {
+        border-color: #ccc;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    100% {
+        border-color: #4CAF50;
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+}
+
+@keyframes hoverAnimation {
+    0% {
+        border-color: #ccc;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    100% {
+        border-color: #80C180;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.selector .option {
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin: 0;
+    display: block;
+    border: 1px solid #ddd;
+}
+
+.selector .option:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+}
+
+.selector select::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.selector select::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.selector .option:disabled {
+    color: #aaa;
+    background-color: #f9f9f9;
+}

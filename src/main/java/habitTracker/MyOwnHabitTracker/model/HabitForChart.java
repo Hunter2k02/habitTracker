@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 @Getter
 @AllArgsConstructor
 @Data
-
 public class HabitForChart {
     Integer habitId;
     String year;

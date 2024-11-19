@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Habit Tracker</title>
+    <title>️Habit Tracker</title>
     <link rel="stylesheet" href="/habitTracker.css">
+    <link rel="icon" href="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/1f3ce.svg" type="image/svg+xml">
+
     <script>
         async function submitHabit(event) {
             event.preventDefault();
@@ -119,7 +121,7 @@
 </head>
 <body>
 <div class="navbar">
-    <h1><a href="/" th:href="@{/}">Home Page</a></h1> <h1><a href="/chart" th:href="@{/chart}">Habit Chart</a></h1>
+    <a href="/" th:href="@{/}">Home Page</a> <a href="/chart" th:href="@{/chart}">Habit Chart</a>
 
 </div>
 <table>

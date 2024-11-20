@@ -1,7 +1,7 @@
 package habitTracker.MyOwnHabitTracker.controller;
 
 import habitTracker.MyOwnHabitTracker.model.Habit;
-import habitTracker.MyOwnHabitTracker.model.HabitForChart;
+import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
 import habitTracker.MyOwnHabitTracker.service.HabitService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +48,7 @@ public class HabitController {
         return service.isHabitCompleted(habitId, payload);
     }
     @GetMapping("/chart-data/{habitCompletionID}")
-    public List<HabitForChart> getChartData(@PathVariable Integer habitCompletionID) {
+    public List<HabitChartDto> getChartData(@PathVariable Integer habitCompletionID) {
         return service.getChartData(habitCompletionID);
     }
 

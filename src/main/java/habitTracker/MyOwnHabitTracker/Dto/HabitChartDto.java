@@ -1,15 +1,13 @@
-package habitTracker.MyOwnHabitTracker.model;
+package habitTracker.MyOwnHabitTracker.Dto;
 
-import jakarta.persistence.Entity;
 import lombok.*;
-import org.springframework.context.annotation.Bean;
 
 @NoArgsConstructor
 @Setter
 @Getter
 @AllArgsConstructor
 @Data
-public class HabitForChart {
+public class HabitChartDto {
     Integer habitId;
     String year;
     String month;

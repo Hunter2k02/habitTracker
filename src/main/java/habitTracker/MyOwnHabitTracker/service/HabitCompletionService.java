@@ -1,14 +1,14 @@
 package habitTracker.MyOwnHabitTracker.service;
 
 import habitTracker.MyOwnHabitTracker.model.HabitCompletion;
-import habitTracker.MyOwnHabitTracker.model.HabitForChart;
+import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
 import habitTracker.MyOwnHabitTracker.repository.HabitCompletionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class HabitCompletionService {
@@ -33,16 +33,63 @@ public class HabitCompletionService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         completionRepository.deleteByHabitIdAndDate(id, currentDate.format(formatter));
     }
-    public List<HabitForChart> getChartData(Integer habitCompletionID) {
+
+    public List<HabitChartDto> getChartData(Integer habitCompletionID) {
         List<Object[]> rawResults = completionRepository.findAllByHabitId(habitCompletionID);
-        List<HabitForChart> stats = new ArrayList<>();
+        List<HabitChartDto> stats = new ArrayList<>();
+
+        if (rawResults.isEmpty()) {
+            stats.addAll(defaultResult(habitCompletionID));
+            return stats;
+        }
 
         for (Object[] row : rawResults) {
-            stats.add(new HabitForChart(
-                    ((Number)row[0]).intValue(),  // habitId
+            stats.add(new HabitChartDto(
+                    ((Number) row[0]).intValue(),  // habitId
                     (String) row[1],               // year
                     (String) row[2],               // month
                     ((Number) row[3]).intValue() // timesCompleted
+            ));
+        }
+        Set<String> existingMonths = stats.stream()
+                .map(HabitChartDto::getMonth)
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        int currentYear = LocalDate.now().getYear();
+        stats = stats.stream()
+                .filter(habit -> Integer.parseInt(habit.getYear()) == currentYear)
+                .collect(Collectors.toList());
+        int min = Integer.parseInt(Collections.min(existingMonths));
+        int max = Integer.parseInt(Collections.max(existingMonths));
+
+        for (int i = min; i <= max; i++) {
+            String month = (i < 10) ? "0" + i : String.valueOf(i);
+            if (!existingMonths.contains(month)) {
+                stats.add(new HabitChartDto(
+                        stats.get(0).getHabitId(),
+                        stats.get(0).getYear(),
+                        month,
+                        0
+                ));
+            }
+        }
+
+        stats.sort(Comparator.comparing(HabitChartDto::getMonth));
+
+
+
+        return stats;
+    }
+    public List<HabitChartDto> defaultResult(Integer habitCompletionID){
+        List<HabitChartDto> stats = new ArrayList<>();
+        int currentYear = LocalDate.now().getYear();
+        for(int i = 1; i <= 12; i++){
+            stats.add(new HabitChartDto(
+                    habitCompletionID,
+                    String.valueOf(currentYear),
+                    (i < 10) ? "0" + i : String.valueOf(i),
+                    0
+
             ));
         }
         return stats;

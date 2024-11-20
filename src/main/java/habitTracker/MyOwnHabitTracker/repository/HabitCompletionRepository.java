@@ -1,7 +1,6 @@
 package habitTracker.MyOwnHabitTracker.repository;
 
 import habitTracker.MyOwnHabitTracker.model.HabitCompletion;
-import habitTracker.MyOwnHabitTracker.model.HabitForChart;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -2,8 +2,7 @@ package habitTracker.MyOwnHabitTracker.service;
 
 import habitTracker.MyOwnHabitTracker.exceptionHandler.HabitNotFoundException;
 import habitTracker.MyOwnHabitTracker.model.Habit;
-import habitTracker.MyOwnHabitTracker.model.HabitCompletion;
-import habitTracker.MyOwnHabitTracker.model.HabitForChart;
+import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
 import habitTracker.MyOwnHabitTracker.repository.HabitRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -11,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ListResourceBundle;
 import java.util.Map;
-import java.util.Optional;
 
 
 @Service
@@ -67,8 +64,8 @@ public class HabitService {
 
         return ResponseEntity.ok().build();
     }
-    public List<HabitForChart> getChartData(Integer habitCompletionID) {
-        List<HabitForChart> chartData = habitCompletionService.getChartData(habitCompletionID);
+    public List<HabitChartDto> getChartData(Integer habitCompletionID) {
+        List<HabitChartDto> chartData = habitCompletionService.getChartData(habitCompletionID);
         return chartData;
     }
     public Integer getHabitIdByName(String name) {

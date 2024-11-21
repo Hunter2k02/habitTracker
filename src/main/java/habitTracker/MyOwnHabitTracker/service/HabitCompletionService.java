@@ -125,6 +125,9 @@ public class HabitCompletionService {
         for (HabitChartDto stat : stats) {
             System.out.println(stat);
         }
+        if(stats.isEmpty()){
+            return 0;
+        }
         return stats.get(0).getTimesCompleted();
     }
 }

@@ -1,5 +1,6 @@
 package habitTracker.MyOwnHabitTracker.controller;
 
+import habitTracker.MyOwnHabitTracker.Dto.HabitTableDto;
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
 import habitTracker.MyOwnHabitTracker.service.HabitService;
@@ -50,6 +51,10 @@ public class HabitController {
     @GetMapping("/chart-data/{habitCompletionID}")
     public List<HabitChartDto> getChartData(@PathVariable Integer habitCompletionID) {
         return service.getChartData(habitCompletionID);
+    }
+    @GetMapping("table-data")
+    public List<HabitTableDto> getChartDataByHabitId() {
+        return service.getTableData();
     }
 
 

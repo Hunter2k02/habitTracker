@@ -19,19 +19,19 @@ public interface HabitCompletionRepository extends JpaRepository<HabitCompletion
     @Modifying
     @Transactional
     @Query(value = """
-        SELECT 
-            habit_id, 
-            SUBSTRING(date, 7, 4) AS year, 
-            SUBSTRING(date, 4, 2) AS month, 
-            COUNT(*) AS timesCompleted
-        FROM 
-            habit_completion
-        WHERE habit_id = :habitId
-        GROUP BY 
-            habit_id, year, month
-        ORDER BY 
-            habit_id, year, month
-    """, nativeQuery = true)
+                SELECT 
+                    habit_id, 
+                    SUBSTRING(date, 7, 4) AS year, 
+                    SUBSTRING(date, 4, 2) AS month, 
+                    COUNT(*) AS timesCompleted
+                FROM 
+                    habit_completion
+                WHERE habit_id = :habitId
+                GROUP BY 
+                    habit_id, year, month
+                ORDER BY 
+                    habit_id, year, month
+            """, nativeQuery = true)
     List<Object[]> findAllByHabitId(Integer habitId);
 
 }

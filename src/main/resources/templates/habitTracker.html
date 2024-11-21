@@ -11,13 +11,10 @@
 
             const habitName = document.getElementById("habitName").value;
             const goal = document.getElementById("goal").value;
-            const timesCompleted = document.getElementById("timesCompleted").value || 0;
-
 
             const habitData = {
                 name: habitName,
                 goal: parseInt(goal, 10),
-                timesCompleted: parseInt(timesCompleted, 10),
                 isCompleted : false
             };
 
@@ -46,14 +43,14 @@
 
         async function loadTable() {
             try {
-                const response = await fetch('/habits');
+                const response = await fetch('/table-data');
                 const data = await response.json();
-                console.log(data); // Debugging: Check the values of `isCompleted`
+
 
                 let tableBody = document.getElementById("habitTableBody");
                 tableBody.innerHTML = '';
 
-                data.forEach(habit => {
+                data.forEach((habit) => {
                     let row = `<tr>
                 <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
                 <td>${habit.name}</td>
@@ -147,9 +144,6 @@
 
     <label for="goal">Goal (times to complete):</label>
     <input type="number" id="goal" name="goal" required placeholder="Enter goal" min="1">
-
-    <label for="timesCompleted">Times Done (optional):</label>
-    <input type="number" id="timesCompleted" name="timesCompleted" placeholder="Enter number of times done" min="0">
 
     <button type="submit">Add Habit</button>
 </form>

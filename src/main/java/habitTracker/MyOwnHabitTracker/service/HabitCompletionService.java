@@ -77,13 +77,13 @@ public class HabitCompletionService {
         stats.sort(Comparator.comparing(HabitChartDto::getMonth));
 
 
-
         return stats;
     }
-    public List<HabitChartDto> defaultResult(Integer habitCompletionID){
+
+    public List<HabitChartDto> defaultResult(Integer habitCompletionID) {
         List<HabitChartDto> stats = new ArrayList<>();
         int currentYear = LocalDate.now().getYear();
-        for(int i = 1; i <= 12; i++){
+        for (int i = 1; i <= 12; i++) {
             stats.add(new HabitChartDto(
                     habitCompletionID,
                     String.valueOf(currentYear),
@@ -93,5 +93,30 @@ public class HabitCompletionService {
             ));
         }
         return stats;
+    }
+
+    public Integer getTimesCompletedByMonth(Integer habitCompletionID) {
+        List<Object[]> rawResults = completionRepository.findAllByHabitId(habitCompletionID);
+        List<HabitChartDto> stats = new ArrayList<>();
+
+        String currentMonth = String.valueOf(LocalDate.now().getMonthValue());
+        String currentYear = String.valueOf(LocalDate.now().getYear());
+        if (Integer.parseInt(currentMonth) < 10) {
+            currentMonth = "0" + currentMonth;
+        }
+        for (Object[] row : rawResults) {
+            String year = (String) row[1];  // year from the result
+            String month = (String) row[2]; // month from the result
+
+            if (currentYear.equals(year) && currentMonth.equals(month)) {
+                stats.add(new HabitChartDto(
+                        ((Number) row[0]).intValue(),  // habitId
+                        year,                          // year
+                        month,                         // month
+                        ((Number) row[3]).intValue()   // timesCompleted
+                ));
+            }
+        }
+        return stats.size();
     }
 }

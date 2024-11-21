@@ -1,5 +1,6 @@
 package habitTracker.MyOwnHabitTracker.service;
 
+import habitTracker.MyOwnHabitTracker.Dto.HabitTableDto;
 import habitTracker.MyOwnHabitTracker.exceptionHandler.HabitNotFoundException;
 import habitTracker.MyOwnHabitTracker.model.Habit;
 import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ public class HabitService {
 
     HabitRepository repository;
     HabitCompletionService habitCompletionService;
+
     public HabitService(HabitRepository repository, HabitCompletionService habitCompletionService) {
         this.repository = repository;
         this.habitCompletionService = habitCompletionService;
@@ -51,10 +54,8 @@ public class HabitService {
                 .orElseThrow(() -> new HabitNotFoundException("Habit not found with ID: " + id));
 
         if (isCompletedToday) {
-            habit.setTimesCompleted(habit.getTimesCompleted() + 1);
             habitCompletionService.saveAHabitCompletion(id);
-        } else if (habit.getTimesCompleted() > 0) {
-            habit.setTimesCompleted(habit.getTimesCompleted() - 1);
+        } else {
             habitCompletionService.deleteAHabitCompletion(id);
         }
 
@@ -64,12 +65,34 @@ public class HabitService {
 
         return ResponseEntity.ok().build();
     }
+
     public List<HabitChartDto> getChartData(Integer habitCompletionID) {
         List<HabitChartDto> chartData = habitCompletionService.getChartData(habitCompletionID);
         return chartData;
     }
+
     public Integer getHabitIdByName(String name) {
         return repository.findIdByName(name);
+    }
+    public List<HabitTableDto> getTableData(){
+        List<Habit> habits = repository.findAll();
+        List<HabitTableDto> habitTableDtos = new ArrayList<>();
+        for(Habit habit : habits){
+            habitTableDtos.add(
+                    new HabitTableDto(
+                            habit.getId(),
+                            habit.getName(),
+                            habit.getGoal(),
+                            habit.getIsCompleted(),
+                            habitCompletionService.getTimesCompletedByMonth(habit.getId())
+                    )
+            );
+            for(HabitTableDto habitTableDto : habitTableDtos){
+                System.out.println(habitTableDto);
+            }
+        }
+        return habitTableDtos;
+
     }
 
 

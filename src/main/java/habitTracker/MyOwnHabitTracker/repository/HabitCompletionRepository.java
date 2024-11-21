@@ -16,6 +16,12 @@ public interface HabitCompletionRepository extends JpaRepository<HabitCompletion
     @Transactional
     @Query("DELETE FROM HabitCompletion h WHERE h.habitId = :habitId AND h.date = :date")
     void deleteByHabitIdAndDate(@Param("habitId") Integer habitId, @Param("date") String date);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM HabitCompletion h WHERE h.habitId = :habitId")
+    void deleteByHabitId(@Param("habitId") Integer habitId);
+
     @Modifying
     @Transactional
     @Query(value = """

@@ -18,6 +18,9 @@ public class HabitCompletionService {
     public HabitCompletionService(HabitCompletionRepository completionRepository) {
         this.completionRepository = completionRepository;
     }
+    public List<HabitCompletion> getHabitCompletions() {
+        return completionRepository.findAll();
+    }
 
     public void saveAHabitCompletion(Integer id) {
         HabitCompletion completion = new HabitCompletion();
@@ -27,7 +30,9 @@ public class HabitCompletionService {
         completion.setDate(currentDate.format(formatter));
         completionRepository.save(completion);
     }
-
+    public void deleteByHabitId(Integer id) {
+        completionRepository.deleteByHabitId(id);
+    }
     public void deleteAHabitCompletion(Integer id) {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -46,9 +51,9 @@ public class HabitCompletionService {
         for (Object[] row : rawResults) {
             stats.add(new HabitChartDto(
                     ((Number) row[0]).intValue(),  // habitId
-                    (String) row[1],               // year
-                    (String) row[2],               // month
-                    ((Number) row[3]).intValue() // timesCompleted
+                    (String) row[1],
+                    (String) row[2],
+                    ((Number) row[3]).intValue()
             ));
         }
         Set<String> existingMonths = stats.stream()
@@ -117,6 +122,9 @@ public class HabitCompletionService {
                 ));
             }
         }
-        return stats.size();
+        for (HabitChartDto stat : stats) {
+            System.out.println(stat);
+        }
+        return stats.get(0).getTimesCompleted();
     }
 }

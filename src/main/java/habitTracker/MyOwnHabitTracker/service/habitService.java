@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ public class HabitService {
 
     public ResponseEntity<?> deleteHabit(Habit habit) {
         repository.delete(habit);
+        habitCompletionService.deleteByHabitId(habit.getId());
         return ResponseEntity.ok().build();
     }
 
@@ -101,7 +104,7 @@ public class HabitService {
     public void resetForNewDay(){
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        List<HabitCompletion> habitCompletions = HabitCompletionRepository.findAll();
+        List<HabitCompletion> habitCompletions = habitCompletionService.getHabitCompletions();
         for(HabitCompletion habitCompletion : habitCompletions){
             if(habitCompletion.getDate().equals(currentDate.format(formatter))){
                 return;

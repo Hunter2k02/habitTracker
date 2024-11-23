@@ -5,6 +5,17 @@ Habit Tracker is a web-based application built with Java Spring Boot, JavaScript
 This project helps you track your habits by allowing you to create, delete, and mark habits as completed.
 You can also visualize your progress through a chart displaying completion statistics over time.
 
+## Screenshots
+
+### Home Page
+![Home Page](./screenshots/home.png)
+
+### Habit Tracker
+![Habit Tracker](./screenshots/table.png)
+
+### Habit Chart
+![Habit Chart](./screenshots/chart.png)
+
 ## How to Use the Habit Tracker
 **Note**: The shown database is already populated with sample data.
 <br>Here’s a quick demonstration of the app in action:
@@ -123,19 +134,6 @@ Start the Spring Boot application:
   - Displays a graphical representation of habit progress over time.
 
 ---
-
-## Screenshots
-
-### Home Page
-![Home Page](./screenshots/home.png)
-
-### Habit Tracker
-![Habit Tracker](./screenshots/table.png)
-
-### Habit Chart
-![Habit Chart](./screenshots/chart.png)
-
-
 
 ## Future Enhancements
 

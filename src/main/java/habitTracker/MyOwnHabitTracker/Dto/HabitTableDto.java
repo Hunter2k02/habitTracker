@@ -13,6 +13,4 @@ public class HabitTableDto {
     Integer goal;
     Boolean isCompleted;
     Integer timesCompleted;
-
-
 }

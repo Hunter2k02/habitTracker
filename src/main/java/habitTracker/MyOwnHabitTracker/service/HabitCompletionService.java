@@ -1,7 +1,7 @@
 package habitTracker.MyOwnHabitTracker.service;
 
-import habitTracker.MyOwnHabitTracker.model.HabitCompletion;
 import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
+import habitTracker.MyOwnHabitTracker.model.HabitCompletion;
 import habitTracker.MyOwnHabitTracker.repository.HabitCompletionRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ public class HabitCompletionService {
     public HabitCompletionService(HabitCompletionRepository completionRepository) {
         this.completionRepository = completionRepository;
     }
+
     public List<HabitCompletion> getHabitCompletions() {
         return completionRepository.findAll();
     }
@@ -30,9 +31,11 @@ public class HabitCompletionService {
         completion.setDate(currentDate.format(formatter));
         completionRepository.save(completion);
     }
+
     public void deleteByHabitId(Integer id) {
         completionRepository.deleteByHabitId(id);
     }
+
     public void deleteAHabitCompletion(Integer id) {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -125,7 +128,7 @@ public class HabitCompletionService {
         for (HabitChartDto stat : stats) {
             System.out.println(stat);
         }
-        if(stats.isEmpty()){
+        if (stats.isEmpty()) {
             return 0;
         }
         return stats.get(0).getTimesCompleted();

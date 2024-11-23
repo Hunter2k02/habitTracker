@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>️Habit Tracker</title>
     <link rel="stylesheet" href="/habitTracker.css">
-    <link rel="icon" href="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/1f3ce.svg" type="image/svg+xml">
+    <link rel="icon" href="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/1f3ce.svg"
+          type="image/svg+xml">
 
     <script>
         async function submitHabit(event) {
@@ -15,7 +16,7 @@
             const habitData = {
                 name: habitName,
                 goal: parseInt(goal, 10),
-                isCompleted : false
+                isCompleted: false
             };
 
             try {
@@ -79,7 +80,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ id: habitId })
+                    body: JSON.stringify({id: habitId})
                 });
 
                 if (response.ok) {
@@ -92,6 +93,7 @@
                 alert("Error deleting habit. Please try again.");
             }
         }
+
         async function markCompletion(habitId, isChecked) {
             try {
                 const response = await fetch(`/habit/${habitId}/completion`, {
@@ -99,7 +101,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ isCompletedToday: isChecked })
+                    body: JSON.stringify({isCompletedToday: isChecked})
                 });
 
                 if (response.ok) {
@@ -137,16 +139,16 @@
 </table>
 
 <div class="newHabit">
-<h2>New habit</h2>
-<form id="habitForm" onsubmit="submitHabit(event)">
-    <label for="habitName">Habit Name:</label>
-    <input type="text" id="habitName" name="habitName" required placeholder="Enter habit name">
+    <h2>New habit</h2>
+    <form id="habitForm" onsubmit="submitHabit(event)">
+        <label for="habitName">Habit Name:</label>
+        <input type="text" id="habitName" name="habitName" required placeholder="Enter habit name">
 
-    <label for="goal">Goal (times to complete):</label>
-    <input type="number" id="goal" name="goal" required placeholder="Enter goal" min="1">
+        <label for="goal">Goal (times to complete):</label>
+        <input type="number" id="goal" name="goal" required placeholder="Enter goal" min="1">
 
-    <button type="submit">Add Habit</button>
-</form>
+        <button type="submit">Add Habit</button>
+    </form>
 </div>
 </body>
 </html>

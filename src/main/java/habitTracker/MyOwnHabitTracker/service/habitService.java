@@ -1,16 +1,16 @@
 package habitTracker.MyOwnHabitTracker.service;
 
+import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
 import habitTracker.MyOwnHabitTracker.Dto.HabitTableDto;
 import habitTracker.MyOwnHabitTracker.exceptionHandler.HabitNotFoundException;
 import habitTracker.MyOwnHabitTracker.model.Habit;
-import habitTracker.MyOwnHabitTracker.Dto.HabitChartDto;
 import habitTracker.MyOwnHabitTracker.model.HabitCompletion;
-import habitTracker.MyOwnHabitTracker.repository.HabitCompletionRepository;
 import habitTracker.MyOwnHabitTracker.repository.HabitRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -78,11 +78,11 @@ public class HabitService {
         return repository.findIdByName(name);
     }
 
-    public List<HabitTableDto> getTableData(){
+    public List<HabitTableDto> getTableData() {
 
         List<Habit> habits = repository.findAll();
         List<HabitTableDto> habitTableDtos = new ArrayList<>();
-        for(Habit habit : habits){
+        for (Habit habit : habits) {
             habitTableDtos.add(
                     new HabitTableDto(
                             habit.getId(),
@@ -92,19 +92,20 @@ public class HabitService {
                             habitCompletionService.getTimesCompletedByMonth(habit.getId())
                     )
             );
-            for(HabitTableDto habitTableDto : habitTableDtos){
+            for (HabitTableDto habitTableDto : habitTableDtos) {
                 System.out.println(habitTableDto);
             }
         }
         return habitTableDtos;
 
     }
-    public void resetForNewDay(){
+
+    public void resetForNewDay() {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         List<HabitCompletion> habitCompletions = habitCompletionService.getHabitCompletions();
-        for(HabitCompletion habitCompletion : habitCompletions){
-            if(habitCompletion.getDate().equals(currentDate.format(formatter))){
+        for (HabitCompletion habitCompletion : habitCompletions) {
+            if (habitCompletion.getDate().equals(currentDate.format(formatter))) {
                 return;
             }
 

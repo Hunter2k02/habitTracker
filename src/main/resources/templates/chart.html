@@ -9,21 +9,27 @@
 
     <title>Habit Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
-<div class="navbar">
-    <a href="/" th:href="@{/}">Home Page</a> <a href="/habit-tracker" th:href="@{/habit-tracker}">Habit Tracker</a>
+<canvas class="myChart" id="myChart" height="80" width="200"></canvas>
+<div class="toolbox">
+    <div class="export-button">
+    <button id="downloadPdf">Export to pdf<img alt="button-for-exporting-current-chart" src="https://png.pngtree.com/png-vector/20220608/ourmid/pngtree-download-icon-green-vector-isolated-on-white-background-png-image_4929191.png"/></button>
+    </div>
+    <div class="selector">
+        <label for="habit-selector"></label>
+        <select id="habit-selector">
+        </select>
+    </div>
+
+    <div class="navbar">
+    <a href="/" th:href="@{/}">Home Page</a>
+    <a href="/habit-tracker" th:href="@{/habit-tracker}">Habit Tracker</a>
 </div>
 
-<canvas class="myChart" id="myChart" height="80" width="200"></canvas>
-
-<div class="selector">
-    <label for="habit-selector"></label>
-    <select id="habit-selector">
-    </select>
 </div>
 <script>
-
     let chartInstance;
 
     async function loadDropDownMenu() {
@@ -39,7 +45,6 @@
 
             habitSelector.addEventListener('change', (event) => {
                 const habitId = event.target.value;
-
 
                 if (habitId === "0") {
                     console.log('All habits selected');
@@ -133,9 +138,22 @@
         }
     }
 
+    document.getElementById('downloadPdf').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        const bgColor = '#333333';
+        pdf.setFillColor(bgColor);
+        pdf.rect(0, 0, pdf.internal.pageSize.width, pdf.internal.pageSize.height, 'F');
+
+        const imgData = document.getElementById('myChart').toDataURL('image/png');
+
+        pdf.addImage(imgData, 'PNG', 10, 10, 180, 90);
+
+        pdf.save('Habit_Chart.pdf');
+    });
+
     loadDropDownMenu();
-
-
 </script>
 </body>
 </html>

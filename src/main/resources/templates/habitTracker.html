@@ -3,8 +3,11 @@
 <head>
     <title>️Habit Tracker</title>
     <link rel="stylesheet" href="/habitTracker.css">
-    <link rel="icon" href="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/1f3ce.svg"
-          type="image/svg+xml">
+    <link rel="icon" href="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/1f3ce.svg" type="image/svg+xml">
+
+    <!-- Include jsPDF and jsPDF-AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
     <script>
         async function submitHabit(event) {
@@ -47,31 +50,29 @@
                 const response = await fetch('/table-data');
                 const data = await response.json();
 
-
                 let tableBody = document.getElementById("habitTableBody");
                 tableBody.innerHTML = '';
 
                 data.forEach((habit) => {
                     let row = `<tr>
-                <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
-                <td>${habit.name}</td>
-                <td>${habit.goal}</td>
-                <td>${habit.timesCompleted}</td>
-                <td>
-                    <input id="markCompletionCheckBox${habit.id}"
-                           class="markCompletionCheckBox"
-                           type="checkbox"
-                           ${habit.isCompleted ? 'checked' : ''}
-                           onchange="markCompletion(${habit.id}, this.checked)">
-                </td>
-            </tr>`;
+                        <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
+                        <td>${habit.name}</td>
+                        <td>${habit.goal}</td>
+                        <td>${habit.timesCompleted}</td>
+                        <td>
+                            <input id="markCompletionCheckBox${habit.id}"
+                                   class="markCompletionCheckBox"
+                                   type="checkbox"
+                                   ${habit.isCompleted ? 'checked' : ''}
+                                   onchange="markCompletion(${habit.id}, this.checked)">
+                        </td>
+                    </tr>`;
                     tableBody.innerHTML += row;
                 });
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-
 
         async function deleteHabit(habitId) {
             try {
@@ -116,13 +117,19 @@
         }
 
         document.addEventListener("DOMContentLoaded", loadTable);
+
+
     </script>
 </head>
 <body>
 <div class="navbar">
-    <a href="/" th:href="@{/}">Home Page</a> <a href="/chart" th:href="@{/chart}">Habit Chart</a>
-
+    <a href="/" th:href="@{/}">Home Page</a>
+    <a href="/chart" th:href="@{/chart}">Habit Chart</a>
 </div>
+
+<!-- Export button to download table as PDF -->
+<button class="export-button" id="downloadPdf">📥</button>
+
 <table>
     <thead>
     <tr>

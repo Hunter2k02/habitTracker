@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>️Habit Tracker</title>
     <link rel="stylesheet" href="/habitTracker.css">
     <link rel="icon" href="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/1f3ce.svg" type="image/svg+xml">
+
+    <!-- Include jsPDF and jsPDF-AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
     <script>
         async function submitHabit(event) {
@@ -15,7 +19,7 @@
             const habitData = {
                 name: habitName,
                 goal: parseInt(goal, 10),
-                isCompleted : false
+                isCompleted: false
             };
 
             try {
@@ -46,31 +50,29 @@
                 const response = await fetch('/table-data');
                 const data = await response.json();
 
-
                 let tableBody = document.getElementById("habitTableBody");
                 tableBody.innerHTML = '';
 
                 data.forEach((habit) => {
                     let row = `<tr>
-                <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
-                <td>${habit.name}</td>
-                <td>${habit.goal}</td>
-                <td>${habit.timesCompleted}</td>
-                <td>
-                    <input id="markCompletionCheckBox${habit.id}"
-                           class="markCompletionCheckBox"
-                           type="checkbox"
-                           ${habit.isCompleted ? 'checked' : ''}
-                           onchange="markCompletion(${habit.id}, this.checked)">
-                </td>
-            </tr>`;
+                        <td><button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button></td>
+                        <td>${habit.name}</td>
+                        <td>${habit.goal}</td>
+                        <td>${habit.timesCompleted}</td>
+                        <td>
+                            <input id="markCompletionCheckBox${habit.id}"
+                                   class="markCompletionCheckBox"
+                                   type="checkbox"
+                                   ${habit.isCompleted ? 'checked' : ''}
+                                   onchange="markCompletion(${habit.id}, this.checked)">
+                        </td>
+                    </tr>`;
                     tableBody.innerHTML += row;
                 });
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-
 
         async function deleteHabit(habitId) {
             try {
@@ -79,7 +81,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ id: habitId })
+                    body: JSON.stringify({id: habitId})
                 });
 
                 if (response.ok) {
@@ -92,6 +94,7 @@
                 alert("Error deleting habit. Please try again.");
             }
         }
+
         async function markCompletion(habitId, isChecked) {
             try {
                 const response = await fetch(`/habit/${habitId}/completion`, {
@@ -99,7 +102,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ isCompletedToday: isChecked })
+                    body: JSON.stringify({isCompletedToday: isChecked})
                 });
 
                 if (response.ok) {
@@ -114,13 +117,19 @@
         }
 
         document.addEventListener("DOMContentLoaded", loadTable);
+
+
     </script>
 </head>
 <body>
 <div class="navbar">
-    <a href="/" th:href="@{/}">Home Page</a> <a href="/chart" th:href="@{/chart}">Habit Chart</a>
-
+    <a href="/" th:href="@{/}">Home Page</a>
+    <a href="/chart" th:href="@{/chart}">Habit Chart</a>
 </div>
+
+<!-- Export button to download table as PDF -->
+<button class="export-button" id="downloadPdf">📥</button>
+
 <table>
     <thead>
     <tr>
@@ -137,16 +146,16 @@
 </table>
 
 <div class="newHabit">
-<h2>New habit</h2>
-<form id="habitForm" onsubmit="submitHabit(event)">
-    <label for="habitName">Habit Name:</label>
-    <input type="text" id="habitName" name="habitName" required placeholder="Enter habit name">
+    <h2>New habit</h2>
+    <form id="habitForm" onsubmit="submitHabit(event)">
+        <label for="habitName">Habit Name:</label>
+        <input type="text" id="habitName" name="habitName" required placeholder="Enter habit name">
 
-    <label for="goal">Goal (times to complete):</label>
-    <input type="number" id="goal" name="goal" required placeholder="Enter goal" min="1">
+        <label for="goal">Goal (times to complete):</label>
+        <input type="number" id="goal" name="goal" required placeholder="Enter goal" min="1">
 
-    <button type="submit">Add Habit</button>
-</form>
+        <button type="submit">Add Habit</button>
+    </form>
 </div>
 </body>
 </html>

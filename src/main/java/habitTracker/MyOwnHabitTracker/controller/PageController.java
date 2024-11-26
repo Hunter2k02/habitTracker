@@ -19,4 +19,9 @@ public class PageController {
     public String chart() {
         return "chart";
     }
+
+    @GetMapping("/tomatillo-timer")
+    public String tomatilloTimer() {
+        return "tomatillo-timer";
+    }
 }

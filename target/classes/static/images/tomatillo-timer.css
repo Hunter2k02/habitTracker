@@ -27,7 +27,7 @@ body {
 .navbar{
     display: flex;
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 40%;
     flex-direction: column;
 
@@ -64,5 +64,3 @@ body {
     box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
     outline: none;
 }
-
-

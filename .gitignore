@@ -25,3 +25,4 @@ replay_pid*
 
 # config files
 src/main/resources/application.yaml
+b/target/classes/application.yaml

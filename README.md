@@ -101,20 +101,20 @@ You can also visualize your progress through a chart displaying completion stati
    ./mvnw clean install 
    ```
 5. #### **Configure the Application**
-Update the application.yaml file located in src/main/resources/ with your database details.
+Create the application.yaml file located in src/main/resources/ with your database details.
 Example for PostgresSQL:
 
  ```yaml
-   spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/name_of_your_database
-    driver-class-name: org.postgresql.Driver
-    username: your_username
-    password: your_password
+  spring:
+      datasource:
+        url: jdbc:postgresql://localhost:5432/name_of_your_database
+        driver-class-name: org.postgresql.Driver
+        username: your_username
+        password: your_password
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: update #Those are optional
+    show-sql: true  #Those are optional
 
    ```
 

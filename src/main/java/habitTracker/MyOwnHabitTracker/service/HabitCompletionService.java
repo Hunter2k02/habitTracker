@@ -125,9 +125,6 @@ public class HabitCompletionService {
                 ));
             }
         }
-        for (HabitChartDto stat : stats) {
-            System.out.println(stat);
-        }
         if (stats.isEmpty()) {
             return 0;
         }

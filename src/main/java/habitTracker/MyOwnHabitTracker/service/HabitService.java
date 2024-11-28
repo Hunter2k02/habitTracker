@@ -92,25 +92,24 @@ public class HabitService {
                             habitCompletionService.getTimesCompletedByMonth(habit.getId())
                     )
             );
-            for (HabitTableDto habitTableDto : habitTableDtos) {
-                System.out.println(habitTableDto);
-            }
         }
         return habitTableDtos;
 
     }
 
-    public void resetForNewDay() {
+    public ResponseEntity<String> resetForNewDay() {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         List<HabitCompletion> habitCompletions = habitCompletionService.getHabitCompletions();
         for (HabitCompletion habitCompletion : habitCompletions) {
             if (habitCompletion.getDate().equals(currentDate.format(formatter))) {
-                return;
+                return ResponseEntity.ok().body("No checkboxes to reset");
             }
 
         }
         repository.resetAllCheckmarks();
+        return ResponseEntity.ok().body("Checkboxes reseted successfully");
+
     }
 
 

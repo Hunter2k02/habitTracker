@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 public class HabitController {
 
-    HabitService service;
+    private final HabitService service;
 
     public HabitController(HabitService service) {
         this.service = service;
@@ -55,10 +55,12 @@ public class HabitController {
         return service.getChartData(habitCompletionID);
     }
 
-    @GetMapping("table-data")
+    @GetMapping("/table-data")
     public List<HabitTableDto> getChartDataByHabitId() {
         return service.getTableData();
     }
-
-
+    @PostMapping("/reset-for-new-day")
+    public ResponseEntity<?> resetHabitForNewDay() {
+        return resetHabitForNewDay();
+    }
 }

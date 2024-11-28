@@ -24,5 +24,7 @@ hs_err_pid*
 replay_pid*
 
 # config files
+*.yaml
 src/main/resources/application.yaml
 b/target/classes/application.yaml
+target/classes/application.yaml

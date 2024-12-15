@@ -61,6 +61,6 @@ public class HabitController {
     }
     @PostMapping("/reset-for-new-day")
     public ResponseEntity<?> resetHabitForNewDay() {
-        return resetHabitForNewDay();
+        return service.resetForNewDay();
     }
 }

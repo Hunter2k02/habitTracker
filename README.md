@@ -1,6 +1,6 @@
 
 # Habit Tracker
-![Live Demo](https://www.filipsanecki.pl/habittracker/)
+[Live Demo](https://www.filipsanecki.pl/habittracker/)
 Habit Tracker is a web-based application built with Java Spring Boot, JavaScript, HTML, and CSS.
 This project helps you track your habits by allowing you to create, delete, and mark habits as completed.
 You can also visualize your progress through a chart displaying completion statistics over time.
